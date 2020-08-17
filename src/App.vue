@@ -3,6 +3,7 @@
     <header id="header-content">
       <input type="text" placeholder="Buscar por um Filme" v-model="filmName" />
       <button v-on:click="searchFilm(filmName)" @keyup.enter="searchFilm(filmName)">Pesquisar</button>
+      <button v-on:click="sortFilms()">Ordenar por titulo</button>
     </header>
     <div class="list-content">
       <div class="content-box">
@@ -31,12 +32,19 @@ export default {
   methods: {
     async searchFilm(filmName) {
       const res = await apiRoutes.searchFilm(filmName);
-      const { Search } = res.data;
-      console.log(res.data);
+      const { Search } = res.data;      
       Search.forEach((value) => {
-        this.films.push(value);
+        this.films.push(value);        
       });
     },
+    sortFilms(){
+      this.films.sort((a, b) => {
+        if (a.Title < b.Title) return -1;
+        if (a.Title > b.Title) return 1;
+        return 0;
+      })
+      this.films
+    }
   },
 };
 </script>
