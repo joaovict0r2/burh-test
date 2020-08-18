@@ -3,14 +3,16 @@
     <header id="header-content">
       <input type="text" placeholder="Buscar por um Filme" v-model="filmName" />
       <button v-on:click="searchFilm(filmName)" @keyup.enter="searchFilm(filmName)">Pesquisar</button>
-      <button v-on:click="sortFilms()">Ordenar por titulo</button>
-    </header>
+      <button v-on:click="sortFilms()">Ordenar por titulo</button>          
+    </header>       
     <div class="list-content">
       <div class="content-box">
         <ul v-for="film in films" :key="film.id">
-          <img :src="film.Poster"/>
-          <p>{{film.Title}}</p>          
-          <p>{{film.Year}}</p>
+          <div>
+            <img :src="film.Poster"/>
+          </div>
+          <p>{{film.Title}} <br> {{film.Year}}</p>                    
+          <span v-on:click="addFavFilm(film)"><i class="far fa-heart"></i></span>
         </ul>
       </div>
     </div>
@@ -21,12 +23,15 @@
 import apiRoutes from "../services/api-routes";
 import "bootstrap/dist/css/bootstrap.css";
 
+
 export default {
-  name: "App",
-  data: () => {
+  name: "App", 
+  data() {
     return {
-      films: [],
+      films: [],      
       filmName: "",
+      favFilms: [], 
+         
     };
   },
   methods: {
@@ -44,24 +49,45 @@ export default {
         return 0;
       })
       this.films
+    },
+    addFavFilm(film){
+      this.favFilms.push( film )
+      console.log(this.favFilms)
     }
+   
   },
 };
 </script>
 
 <style >
-
-ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ul{    
+    background-color: gainsboro;
+    padding-left: .8rem;    
     font-family: sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ul span {
+  cursor: pointer;
+  
+}
+.list-content{
+  padding: .3rem;
+  border-radius: 50%;
 }
 
 img{
-    width: 80px;    
-    margin-right: 10px;
-    border-radius: 15%;
+    width: 6rem;    
+    margin-right: 0 auto;
+    border-radius: 10%;
 }
 
 p{
