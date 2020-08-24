@@ -4,17 +4,15 @@
       <input type="text" placeholder="Buscar por um Filme" v-model="filmName" @keyup.enter="searchFilm(filmName)" />
       <button v-on:click="searchFilm(filmName)" >Pesquisar</button>
       <button v-on:click="sortFilms()">Ordenar por titulo</button> 
-      <button><router-link to="/favoritos">Favoritos</router-link></button> 
-      
-
+      <button><router-link to="/favoritos">Favoritos</router-link></button>          
     </header>       
     <div class="list-content">
       <div class="content-box">
         <ul v-for="film in films" :key="film.id">
           <div>
-            <a href="detalhes"><img :src="film.Poster"/></a>
+            <a href="detalhes" @click="searchFilmById(film.imdbID)"><img :src="film.Poster"/></a>
           </div>
-          <p>{{film.Title}} <br> {{film.Year}}</p>                    
+          <p>{{film.Title}}</p>                    
           <span  @click="addFavFilm(film)"><i class="far fa-heart"></i></span>
         </ul>
       </div>
@@ -25,6 +23,7 @@
 <script>
 import apiRoutes from "../services/api-routes";
 import "bootstrap/dist/css/bootstrap.css";
+import { mapMutations } from 'vuex'
 
 
 export default {
@@ -37,15 +36,25 @@ export default {
          
     };
   },
+  computed: {
+    ...mapMutations([
+      'ADD_FAV_FILM'
+    ]),
+  },
   methods: {
+    
     async searchFilm(filmName) {
       const res = await apiRoutes.searchFilm(filmName);
-      const { Search } = res.data;    
-      console.log(res.data)  
+      const { Search } = res.data; 
+      console.log(res.data)         
       Search.forEach((value) => {
         this.films.push(value);        
-      });
+      });      
     },
+    // async searchFilmById(){
+    //   const res = await apiRoutes.searchFilmById(this.film.imdbID)
+    //   console.log(res)
+    // },
     sortFilms(){
       this.films.sort((a, b) => {
         a = a.Title.toLowerCase().replace(/[àáâãäå]/,"a").replace(/[èéêë]/,"e").replace(/[ìíîï]/,"i").replace(/[òóôõö]/,"o").replace(/[ùúûü]/,"u").replace(/[ç]/,"c").replace(/[^a-z0-9]/gi,'')
@@ -55,8 +64,7 @@ export default {
       this.films
     },
     addFavFilm(film){
-      this.favFilms.push( film )
-      console.log(this.favFilms)
+      this.$store.commit('ADD_FAV_FILM', film)    
     }
    
   },

@@ -1,14 +1,16 @@
 <template>
-  <div>
-      
-      <p>Detalhes</p>
+  <div id="details">      
+      <p>Detalhes</p>    
       <router-link to="/">Home</router-link>
   </div>
 </template>
 
 <script>
     export default {
-        name: 'details'
+        name: 'details',
+        computed: {
+         
+        }
     }
 </script>
 
