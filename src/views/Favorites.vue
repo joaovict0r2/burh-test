@@ -3,9 +3,9 @@
     <div class="list-content">
       <div class="content-box">
         <ul v-for="(film, index) in $store.state.favFilms" :key="index">
-          <div>
-            <a href="detalhes"><img :src="film.Poster"/></a>
-          </div>
+          <router-link :to="`/detalhes/${$store.state.film.Title}`">
+                <img :src="film.Poster"/>
+              </router-link>
           <p>{{film.Title}}<br/>{{film.Year}}</p> 
           <span @click="removeFilm(index)"><i class="fas fa-trash"></i></span>       
         </ul>

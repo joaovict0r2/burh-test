@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header id="header-content">
+    <header id="header-content">      
       <input type="text" placeholder="Buscar por um Filme" v-model="filmName" @keyup.enter="searchFilm(filmName)" />
       <button v-on:click="searchFilm(filmName)" >Pesquisar</button>
       <button v-on:click="sortFilms()">Ordenar por titulo</button> 
@@ -10,7 +10,11 @@
       <div class="content-box">
         <ul v-for="film in films" :key="film.id">
           <div>
-            <a href="detalhes" @click="searchFilmById(film.imdbID)"><img :src="film.Poster"/></a>
+            <div>
+              <router-link :to="`/detalhes/${film.Title}`">
+                <img :src="film.Poster"/>
+              </router-link>
+            </div>
           </div>
           <p>{{film.Title}}</p>                    
           <span  @click="addFavFilm(film)"><i class="far fa-heart"></i></span>
@@ -38,23 +42,24 @@ export default {
   },
   computed: {
     ...mapMutations([
-      'ADD_FAV_FILM'
+      'ADD_FAV_FILM',
+      
     ]),
   },
   methods: {
     
     async searchFilm(filmName) {
+      try {   
+        this.films = []          
       const res = await apiRoutes.searchFilm(filmName);
-      const { Search } = res.data; 
-      console.log(res.data)         
+      const { Search } = res.data;    
       Search.forEach((value) => {
         this.films.push(value);        
-      });      
-    },
-    // async searchFilmById(){
-    //   const res = await apiRoutes.searchFilmById(this.film.imdbID)
-    //   console.log(res)
-    // },
+      }); 
+       } catch (error) {
+         alert('Filme não encontrado')
+      }     
+    },    
     sortFilms(){
       this.films.sort((a, b) => {
         a = a.Title.toLowerCase().replace(/[àáâãäå]/,"a").replace(/[èéêë]/,"e").replace(/[ìíîï]/,"i").replace(/[òóôõö]/,"o").replace(/[ùúûü]/,"u").replace(/[ç]/,"c").replace(/[^a-z0-9]/gi,'')
