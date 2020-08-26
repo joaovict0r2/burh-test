@@ -8,16 +8,8 @@
     </header>       
     <div class="list-content">
       <div class="content-box">
-        <ul v-for="film in films" :key="film.id">
-          <div>
-            <div>
-              <router-link :to="`/detalhes/${film.Title}`">
-                <img :src="film.Poster"/>
-              </router-link>
-            </div>
-          </div>
-          <p>{{film.Title}}</p>                    
-          <span  @click="addFavFilm(film)"><i class="far fa-heart"></i></span>
+        <ul v-for="(film, index) in films" :key="index">
+          <card-film :film="film" :isActive="verifyFav(film)" @add-fav-film="addFavFilm"></card-film>
         </ul>
       </div>
     </div>
@@ -25,29 +17,37 @@
 </template>
 
 <script>
+import CardFilm from './CardFilm'
 import apiRoutes from "../services/api-routes";
 import "bootstrap/dist/css/bootstrap.css";
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 
 export default {
   name: "home", 
+  components:{
+    CardFilm
+  },
   data() {
     return {
       films: [],      
       filmName: "",
-      favFilms: [], 
-         
+      favFilms: [],
+      isActive: false               
     };
+    
   },
   computed: {
     ...mapMutations([
-      'ADD_FAV_FILM',
-      
+      'ADD_FAV_FILM', 
+      'VERIFY_FILM'           
     ]),
+    
   },
   methods: {
-    
+    ...mapActions([
+      'removeFavFilm'
+    ]),
     async searchFilm(filmName) {
       try {   
         this.films = []          
@@ -68,10 +68,17 @@ export default {
       })
       this.films
     },
-    addFavFilm(film){
-      this.$store.commit('ADD_FAV_FILM', film)    
-    }
-   
+    addFavFilm(film){ 
+      this.$store.commit('ADD_FAV_FILM', film)
+    },
+    verifyFav(film){ //passar para utils
+        let filteredFilm = this.$store.state.favFilms.filter(filmID => filmID.imdbID  == film.imdbID)
+
+        if(filteredFilm.length == 0 ){
+            return false
+        }
+        return true
+    },
   },
 };
 </script>
@@ -82,31 +89,16 @@ export default {
   margin: 0;
   padding: 0;
 }
-ul{    
-    background-color: gainsboro;
-    padding-left: .8rem;    
-    font-family: sans-serif;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-ul span {
-  cursor: pointer;
-  
-}
 .list-content{
   padding: .3rem;
   border-radius: 50%;
 }
-
 img{
-    width: 6rem;    
+    width: 16rem;    
     margin-right: 0 auto;
-    border-radius: 10%;
+    border-radius: 2%;
 }
-
 p{
     margin: 5px 0;
 }

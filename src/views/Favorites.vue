@@ -3,11 +3,11 @@
     <div class="list-content">
       <div class="content-box">
         <ul v-for="(film, index) in $store.state.favFilms" :key="index">
-          <router-link :to="`/detalhes/${$store.state.film.Title}`">
-                <img :src="film.Poster"/>
-              </router-link>
-          <p>{{film.Title}}<br/>{{film.Year}}</p> 
-          <span @click="removeFilm(index)"><i class="fas fa-trash"></i></span>       
+          <router-link :to="`/detalhes/${film.Title}`">
+            <img :src="film.Poster"/>
+          </router-link>
+          <p>{{film.Title}}</p> 
+          <span @click="removeFavFilm(index)"><i class="fas fa-trash"></i></span>       
         </ul>
       </div>
     </div>
@@ -28,8 +28,8 @@ export default {
       ...mapActions([
           'removeFavFilm'
       ]),
-      removeFilm(film) {
-        this.$store.commit('REMOVE_FAV_FILM', film)
+      removeFavFilm(film) {
+        this.$store.commit('REMOVE_FAV_FILM', film)      
       }
   }
 };
