@@ -1,70 +1,78 @@
 <template>
-  <div>
-    <div class="list-content">
-      <div class="content-box">
-        <ul v-for="(film, index) in $store.state.favFilms" :key="index">
-          <router-link :to="`/detalhes/${film.Title}`">
-            <img :src="film.Poster"/>
-          </router-link>
-          <p>{{film.Title}}</p> 
-          <span @click="removeFavFilm(index)"><i class="fas fa-trash"></i></span>       
-        </ul>
+  <div id="main">
+    <div>    
+      <button id="button-back" class="btn bg-white rounded-full absolute text-black  py-2 px-3">
+        <router-link to="/"><span class="pr-1"><i class="fas fa-arrow-left"></i></span></router-link>
+      </button>      
+      <div id="header" class=" bg-gradient-to-r from-orange-400 via-red-500 to-pink-500">
+        <p class="text-white font-bold p-8 pt-10">Meus favoritos</p>
       </div>
     </div>
-    <router-link to="/">back</router-link>
+    <div class="cards-content  bg-gray-200 -mt-10"> 
+      <ul class="ul-card" v-for="(film, index) in $store.state.favFilms" :key="index">
+        <div class="max-w-sm bg-white border rounded-lg overflow-hidden shadow-xl m-auto">
+          <div>
+            <router-link :to="`/detalhes/${film.Title}`">
+              <img class="w-full" :src="film.Poster" />
+            </router-link>
+          </div>
+          <div class="flex">
+            <div class="w-full sm:w-3/4 md:w-3/4 p-4 text-left">
+              <div class="font-bold text-xl mb-2">{{ film.Title }}</div>
+            </div>
+            <div class="sm:w-1/4 md:w-1/4 p-4 text-right">
+              <span id="pointer-trash" @click="removeFavFilm(index)">
+                <i class="fas fa-trash"></i>
+              </span>
+            </div>
+            
+          </div>
+        </div>
+      </ul>  
+    </div>
   </div>
 </template>
 
 <script>
-import "bootstrap/dist/css/bootstrap.css";
-import {  mapActions } from 'vuex';
+import "../../assets/css/tailwind.css";
+import { mapActions } from "vuex";
 
 export default {
   name: "Favorites",
-  computed: {
-      
+  data(){
+    return{      
+    }
   },
-  methods:{
-      ...mapActions([
-          'removeFavFilm'
-      ]),
-      removeFavFilm(film) {
-        this.$store.commit('REMOVE_FAV_FILM', film)      
-      }
-  }
+  computed: {},
+  methods: {
+    ...mapActions([
+      "removeFavFilm"
+    ]),
+      removeFavFilm(film) {  
+      this.$store.commit("REMOVE_FAV_FILM", film);      
+    },            
+  },
 };
 </script>
 
 <style >
-*{
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.cards-content{
+  min-height: 200px;
+  padding-top: 2rem;
+  border-radius: 2.5rem 2.5rem 0 0;
+  background-color: white;
 }
-ul{    
-    background-color: gainsboro;
-    padding-left: .8rem;    
-    font-family: sans-serif;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+#main{  
+  padding-bottom: 1.3rem;
 }
+.ul-card{
+  margin-top: 1rem;
 
-
-.list-content{
-  padding: .3rem;
-  border-radius: 50%;
 }
-
-img{
-    width: 6rem;    
-    margin-right: 0 auto;
-    border-radius: 10%;
+#pointer-trash{
+  cursor: pointer;
 }
-
-p{
-    margin: 5px 0;
+#button-back{
+  margin-left: -1.4rem;
 }
-
 </style>

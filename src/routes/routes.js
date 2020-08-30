@@ -11,6 +11,7 @@ export const router = new VueRouter({
     routes: [
         { path: '/', component: home },
         { path: '/favoritos', component: Favorites },
-        { path: '/detalhes/:id', component: Details}
+        { path: '/detalhes/:id', component: Details },
     ]
+
 })

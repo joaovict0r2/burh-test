@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import { router } from './routes/routes'
 import Store from './store'
+import '../assets/css/tailwind.css'
 
 import storePlugin from './storePlugin'
 Vue.use(storePlugin)
