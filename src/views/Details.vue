@@ -1,36 +1,48 @@
 <template>
-  <div id="detalhes">      
-    <header>
+  <div id="detalhes">   
+    <div v-if="$isMobile()">
+      <div class="header-mobile">
         <button class="btn bg-white rounded-full absolute text-black  py-2 px-3 button-back">
           <router-link to="/"><span><i class="fas fa-arrow-left "></i></span></router-link>
         </button>
         <img class="w-full object-cover object-top img-header " :src="details.Poster">
-    </header> 
+      </div>
+    </div>
+    <div v-else>
+      <div class="header-desktop">
+        <div class="flex w-full bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-color">
+          <button class="btn bg-white rounded-full absolute text-black mt-4 py-2 px-3 button-back">
+            <router-link to="/"><span><i class="fas fa-arrow-left "></i></span></router-link>
+          </button>
+          <img class="flex m-auto content-center bg-img" :src="details.Poster" >
+        </div>
+      </div>
+    </div>  
+    <!-- body content  -->
     <div class="content">
       <div class="text-center content-title">
           <h1 class="text-xl star-strg">{{details.Title}}</h1>
           <p class="text-xs opacity-50 genre">{{details.Genre}}</p>
           <p class="text-xl"><i class="fas fa-star"></i> {{details.imdbRating}}</p>
       </div>  
-      <div class="px-2 grid-country">
+      <div class="px-3 grid-country">
         <div class="flex -mx-2">
           <div class="w-1/3 text-center">
-            <div class="py-1 h-12 text-xs">
+            <div class="h-12 text-xs">
               <p class="opacity-50">Ano</p>
-              <p class="text-xl">{{details.Year}}</p>
+              <p class="-mt-2 text-xl">{{details.Year}}</p>
             </div>
           </div>
           <div class="w-1/3 text-center box2">
-            <div class="py-1 h-12 text-xs">
+            <div class="h-12 text-xs">
               <p class="opacity-50">País</p>
-              <p class="text-xl">{{details.Country}}</p>
+              <p class="-mt-2 text-xl">{{details.Country}}</p>
             </div>
           </div>
-          <!-- mudar a ordem de font size -->
           <div class="w-1/3 text-center">
-            <div class="py-1 h-12 text-xs">
+            <div class="h-12 text-xs">
               <p class="opacity-50">Duração</p>
-              <p class="text-xl">{{details.Runtime}}</p>
+              <p class="-mt-2 text-xl">{{details.Runtime}}</p>
             </div>
           </div>
         </div>
@@ -79,31 +91,43 @@
 
 <script>
 import apiRoutes from '../../services/api-routes'
-    export default {
-        name: 'detalhes',
-        data(){
-            return{
-                details: {},
-                
-            }
-        },      
-        async mounted(){
-            await this.searchFilmByTitle()             
-        },
-        methods:{
-            async searchFilmByTitle(){                 
-                const res = await apiRoutes.searchFilmByTitle(this.$route.params.id)
-                this.details = res.data                            
-            },
-        }
+export default {
+  name: 'detalhes',
+    data(){
+      return{
+      details: {},
+
     }
+},      
+  async mounted(){
+  await this.searchFilmByTitle()             
+},
+  methods:{
+    async searchFilmByTitle(){                 
+      const res = await apiRoutes.searchFilmByTitle(this.$route.params.id)
+      this.details = res.data                            
+    },
+  }
+}
 </script>
 
 <style>
 .button-back{
   margin-left: -1.4rem;
 }
-header img{
+.header-desktop .bg-color{
+    height: 30rem;
+    border-bottom-left-radius: 60% 30%;
+    border-bottom-right-radius: 60% 30%;
+}
+.header-desktop .bg-img{ 
+  height: 28rem;
+  border-top-left-radius: 5% 1.7rem;
+  border-top-right-radius: 5% 1.7rem;
+  border-bottom-left-radius: 60% 1.7rem;
+  border-bottom-right-radius: 60% 1.7rem;
+}
+ .header-mobile img{
   border-bottom-left-radius: 910px 300px;
   border-bottom-right-radius: 210px 990px ;
   box-shadow: 0px 0px 18px 7px rgb(104, 104, 104);
@@ -121,19 +145,19 @@ header img{
   margin-top: 2rem;
 }
 .grid-country{
-  margin-top: 1rem;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 .grid-country .box2{
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
+  
 }
-@media(min-width: 700px){
-  header img{
-    border-radius: none;
-    width: 80%;
-  }
+.header-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-}
 
 </style>

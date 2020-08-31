@@ -114,7 +114,7 @@ export default {
 }
 #header p{
   
-  padding-top: 1rem;
+  padding-top: 2.2rem;
   font-size: 1.7rem;
   padding-left: 2rem;
 
@@ -135,8 +135,18 @@ export default {
 .not-found{
   padding-top: 2rem;
 }
-@media(min-width: 700px){
-  
+
+.app-content{
+  margin: 0 5%;
+}
+
+.film-content {
+  justify-content: center;
+}
+@media (max-width: 368px){
+  #header p{
+    padding-top: .4rem;
+  }
 }
 
 </style>
