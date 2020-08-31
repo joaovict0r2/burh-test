@@ -8,27 +8,25 @@
         Milhões de Filmes para Descobrir. Explore já.
       </p>
     </div>
-    <form id="search" @submit.prevent="" class="w-full max-w-sm m-auto">
-      <div class="flex -mt-5">
-        <input v-model="filmName" class="bg-white focus:outline-none font-semibold border rounded-full py-2 px-4 block w-full" type="text" placeholder="Buscar por um filme...">
-        <button v-on:click="searchFilm(filmName)" class="-ml-16 text-white focus:outline-none font-semibold no-outline border bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 rounded-full">
-          Buscar
-        </button>
-      </div>     
-    </form>
-      <div class="max-w-sm m-auto icon-sort" v-show="sortfilm == true" >
+    <div class="app-content">
+      <form id="search" @submit.prevent="" class="w-full m-auto">
+        <div class="flex -mt-5">
+          <input v-model="filmName" class="bg-white focus:outline-none font-semibold border rounded-full py-2 px-4 block w-full" type="text" placeholder="Buscar por um filme...">
+          <button v-on:click="searchFilm(filmName)" class="-ml-16 text-white focus:outline-none font-semibold no-outline border bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 rounded-full btn-search">
+            Buscar
+          </button>
+        </div>     
+      </form>
+      <div class="m-auto icon-sort" v-show="sortfilm == true" >
         <button class="btn border rounded-full " v-on:click="sortFilms()"><i class="fas fa-sort-alpha-up"> Ordenar por titulo</i></button>
       </div> 
-      <div class="container">
-        <div class="row">
-          <!-- <div class="col-sm" > -->
-            <card-film v-for="(film, index) in films" :key="index" :film="film" :isActive="verifyFav(film)" @add-fav-film="addFavFilm"></card-film>
-          <!-- </div> -->
-        </div>
+      <div class="flex flex-wrap film-content">
+        <card-film v-for="(film, index) in films" :key="index" :film="film" :isActive="verifyFav(film)" @add-fav-film="addFavFilm"></card-film>
       </div>
       <div class="text-center not-found" v-show="notfound == true">
         <p class="text-gray-900 text-opacity-50" ><i class="far fa-sad-tear"></i> Filme não encontrado</p>
       </div>
+    </div>
   </div>
 </template>
 
@@ -124,7 +122,7 @@ export default {
 }
 #search button {
   height: 2.6rem;
-  width: 4rem;
+  /* width: 4rem; */
 }
 .btn{
   border-radius: 2rem;
