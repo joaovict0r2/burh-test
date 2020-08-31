@@ -1,30 +1,63 @@
 <template>
-  <div id="detalhes">   
+  <div id="detalhes">
     <div v-if="$isMobile()">
       <div class="header-mobile">
-        <button class="btn bg-white rounded-full absolute text-black  py-2 px-3 button-back">
-          <router-link to="/"><span><i class="fas fa-arrow-left "></i></span></router-link>
+        <button
+          class="btn
+            bg-white
+            rounded-full
+            absolute
+            text-black
+            py-2 px-3
+            button-back"
+        >
+          <router-link to="/">
+            <span><i class="fas fa-arrow-left "></i></span>
+          </router-link>
         </button>
-        <img class="w-full object-cover object-top img-header " :src="details.Poster">
+        <img
+          class="w-full
+            object-cover
+            object-top
+            img-header"
+          :src="details.Poster"
+        >
       </div>
     </div>
     <div v-else>
       <div class="header-desktop">
-        <div class="flex w-full bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-color">
-          <button class="btn bg-white rounded-full absolute text-black mt-4 py-2 px-3 button-back">
-            <router-link to="/"><span><i class="fas fa-arrow-left "></i></span></router-link>
+        <div
+          class="flex
+            w-full
+            bg-gradient-to-r
+            from-orange-400 via-red-500 to-pink-500
+            bg-color"
+        >
+          <button
+            class="btn
+              bg-white
+              rounded-full
+              absolute
+              text-black
+              mt-4 py-2 px-3
+              button-back"
+          >
+            <router-link to="/">
+              <span><i class="fas fa-arrow-left "></i></span>
+            </router-link>
           </button>
           <img class="flex m-auto content-center bg-img" :src="details.Poster" >
         </div>
       </div>
-    </div>  
-    <!-- body content  -->
+    </div>
     <div class="content">
       <div class="text-center content-title">
-          <h1 class="text-xl star-strg">{{details.Title}}</h1>
-          <p class="text-xs opacity-50 genre">{{details.Genre}}</p>
-          <p class="text-xl"><i class="fas fa-star"></i> {{details.imdbRating}}</p>
-      </div>  
+        <h1 class="text-xl star-strg">{{details.Title}}</h1>
+        <p class="text-xs opacity-50 genre">{{details.Genre}}</p>
+        <p class="text-xl">
+          <i class="fas fa-star"></i> {{details.imdbRating}}
+        </p>
+      </div>
       <div class="px-3 grid-country">
         <div class="flex -mx-2">
           <div class="w-1/3 text-center">
@@ -90,25 +123,25 @@
 </template>
 
 <script>
-import apiRoutes from '../../services/api-routes'
+import apiRoutes from '../../services/api-routes';
 export default {
   name: 'detalhes',
-    data(){
-      return{
+  data() {
+    return {
       details: {},
 
-    }
-},      
-  async mounted(){
-  await this.searchFilmByTitle()             
-},
-  methods:{
-    async searchFilmByTitle(){                 
-      const res = await apiRoutes.searchFilmByTitle(this.$route.params.id)
-      this.details = res.data                            
+    };
+  },
+  async mounted() {
+    await this.searchFilmByTitle();
+  },
+  methods: {
+    async searchFilmByTitle() {
+      const res = await apiRoutes.searchFilmByTitle(this.$route.params.id);
+      this.details = res.data;
     },
-  }
-}
+  },
+};
 </script>
 
 <style>
@@ -120,7 +153,7 @@ export default {
     border-bottom-left-radius: 60% 30%;
     border-bottom-right-radius: 60% 30%;
 }
-.header-desktop .bg-img{ 
+.header-desktop .bg-img{
   height: 28rem;
   border-top-left-radius: 5% 1.7rem;
   border-top-right-radius: 5% 1.7rem;
@@ -151,13 +184,12 @@ export default {
 .grid-country .box2{
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  
+
 }
 .header-desktop {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 </style>
